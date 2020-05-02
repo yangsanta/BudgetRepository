@@ -16,5 +16,9 @@ namespace BudgetApp
         {
             InitializeComponent();
         }
+
+        public void Test()
+        {
+        }
     }
 }
