@@ -35,12 +35,14 @@ namespace BudgetApp
             {
                 var now = int.Parse(startDateTime.ToString("yyyyMM"));
                 NowMonth = all.Where(o => startDateTime.Month == endDateTime.Month && o.YeatMonthDateTime == now).FirstOrDefault();
+
+                return NowMonth.Amount / DateTime.DaysInMonth(startDateTime.Year, startDateTime.Month);
             }
-            //else if (startDateTime.Year == endDateTime.Year && startDateTime.Month < endDateTime.Month)
+            //else if (startDateTime.Month < endDateTime.Month)
             //{
             //    int firstDay = DateTime.DaysInMonth(startDateTime.Year, startDateTime.Month) - startDateTime.Day + 1;
             //    var now = int.Parse(startDateTime.ToString("yyyyMM"));
-            //    NowMonth = all.Where(o =>  o.YeatMonthDateTime == now).FirstOrDefault();
+            //    NowMonth = all.Where(o => o.YeatMonthDateTime == now).FirstOrDefault();
             //    decimal firstAmount = NowMonth.Amount * (firstDay / DateTime.DaysInMonth(startDateTime.Year, startDateTime.Month));
 
             //    if (endDateTime.Month - startDateTime.Month == 1)
