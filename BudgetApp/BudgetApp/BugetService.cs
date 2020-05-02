@@ -38,21 +38,26 @@ namespace BudgetApp
 
                 return NowMonth.Amount / DateTime.DaysInMonth(startDateTime.Year, startDateTime.Month);
             }
-            //else if (startDateTime.Month < endDateTime.Month)
-            //{
-            //    int firstDay = DateTime.DaysInMonth(startDateTime.Year, startDateTime.Month) - startDateTime.Day + 1;
-            //    var now = int.Parse(startDateTime.ToString("yyyyMM"));
-            //    NowMonth = all.Where(o => o.YeatMonthDateTime == now).FirstOrDefault();
-            //    decimal firstAmount = NowMonth.Amount * (firstDay / DateTime.DaysInMonth(startDateTime.Year, startDateTime.Month));
+            else if (startDateTime.Month < endDateTime.Month || startDateTime.Year != endDateTime.Year)
+            {
+                int firstDay = DateTime.DaysInMonth(startDateTime.Year, startDateTime.Month) - startDateTime.Day + 1;
+                var now = int.Parse(startDateTime.ToString("yyyyMM"));
+                NowMonth = all.Where(o => o.YeatMonthDateTime == now).FirstOrDefault();
+                decimal firstAmount = NowMonth.Amount * (firstDay / DateTime.DaysInMonth(startDateTime.Year, startDateTime.Month));
 
-            //    if (endDateTime.Month - startDateTime.Month == 1)
-            //    {
-            //        var nowNext = int.Parse(endDateTime.ToString("yyyyMM"));
-            //        var NextMonth = all.Where(o => o.YeatMonthDateTime == nowNext).FirstOrDefault();
-            //        decimal lastAmount = NextMonth.Amount * (endDateTime.Day / DateTime.DaysInMonth(endDateTime.Year, endDateTime.Month));
-            //        return firstAmount + lastAmount;
-            //    }
-            //}
+                if (endDateTime.Month - startDateTime.Month == 1)
+                {
+                    var nowNext = int.Parse(endDateTime.ToString("yyyyMM"));
+                    var NextMonth = all.Where(o => o.YeatMonthDateTime == nowNext).FirstOrDefault();
+
+                    decimal lastAmount = (NextMonth.Amount / DateTime.DaysInMonth(endDateTime.Year, endDateTime.Month)) * endDateTime.Day;
+                    return firstAmount + lastAmount;
+                }
+                else if (endDateTime.Month - startDateTime.Month > 1)
+                {
+
+                }
+            }
 
             return NowMonth.Amount;
         }
