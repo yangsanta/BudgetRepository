@@ -47,7 +47,7 @@ namespace BudgetAppTests
         }
 
         [TestMethod]
-        public void MultipleDay()
+        public void CrossTwoDay()
         {
             var repo = NSubstitute.Substitute.For<IBudgetRepo>();
             repo.GetALL().Returns(new List<Budget>() {
@@ -66,7 +66,7 @@ namespace BudgetAppTests
         }
 
         [TestMethod]
-        public void MultipleMonth()
+        public void CrossMultipleMonth()
         {
             var repo = NSubstitute.Substitute.For<IBudgetRepo>();
             repo.GetALL().Returns(new List<Budget>() {
