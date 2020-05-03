@@ -18,6 +18,12 @@ namespace BudgetApp
         public decimal Query(DateTime startDateTime, DateTime endDateTime)
         {
             var budgets = this._repo.GetALL();
+            var budgetsPerDay = this.GetBudgetsPerDay(budgets);
+            return budgetsPerDay.Where(x => startDateTime.Date <= x.Date && x.Date <= endDateTime.Date).Sum(x => x.Amount);
+        }
+
+        private List<BudgetEntity> GetBudgetsPerDay(List<Budget> budgets)
+        {
             var budgetsPerDay = new List<BudgetEntity>();
             foreach (var budget in budgets)
             {
@@ -31,8 +37,8 @@ namespace BudgetApp
                     budgetsPerDay.Add(new BudgetEntity() { Date = new DateTime(year, month, day++), Amount = amountPerDay });
                 }
             }
-            
-            return budgetsPerDay.Where(x => startDateTime.Date <= x.Date && x.Date <= endDateTime.Date).Sum(x => x.Amount);
+
+            return budgetsPerDay;
         }
     }
 }

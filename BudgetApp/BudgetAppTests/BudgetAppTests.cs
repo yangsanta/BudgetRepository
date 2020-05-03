@@ -83,5 +83,24 @@ namespace BudgetAppTests
 
             Assert.AreEqual(4120,queryResult);
         }
+
+        [TestMethod]
+        public void CrossYearMonth()
+        {
+            var repo = NSubstitute.Substitute.For<IBudgetRepo>();
+            repo.GetALL().Returns(new List<Budget>() {
+                new Budget() { YearMonth = "202011", Amount = 300 },
+                new Budget() { YearMonth = "202012", Amount = 3100 },
+                new Budget() { YearMonth = "202101", Amount = 31000 }
+            });
+            var budgetService = new BudgetService(repo);
+            DateTime date = DateTime.Now;
+            var firstDayOfMonth = new DateTime(2020, 11, 29);
+            var lastDayOfMonth = new DateTime(2021, 1, 1);
+
+            var queryResult = budgetService.Query(firstDayOfMonth, lastDayOfMonth);
+
+            Assert.AreEqual(4120, queryResult);
+        }
     }
 }
