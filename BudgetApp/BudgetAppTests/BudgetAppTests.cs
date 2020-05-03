@@ -7,7 +7,7 @@ using NSubstitute;
 namespace BudgetAppTests
 {
     [TestClass]
-    public class UnitTest1
+    public class BudgetAppTests
     {
         private Budget budget = new Budget();
 
@@ -24,7 +24,7 @@ namespace BudgetAppTests
             var dateTime = DateTime.Now;
             var queryResult = budgetService.Query(dateTime, dateTime);
 
-            Assert.AreEqual(queryResult, 100);
+            Assert.AreEqual(100, queryResult);
         }
 
         [TestMethod]
@@ -38,12 +38,12 @@ namespace BudgetAppTests
             });
             var budgetService = new BudgetService(repo);
             DateTime date = DateTime.Now;
-            var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
-            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+            var firstDayOfMonth = new DateTime(2020, 05, 1);
+            var lastDayOfMonth = new DateTime(2020, 05, 31);
 
             var queryResult = budgetService.Query(firstDayOfMonth, lastDayOfMonth);
 
-            Assert.AreEqual(queryResult, 3100);
+            Assert.AreEqual(3100, queryResult);
         }
 
         [TestMethod]
@@ -57,14 +57,31 @@ namespace BudgetAppTests
             });
             var budgetService = new BudgetService(repo);
 
-            DateTime date = DateTime.Now;
-            var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
-            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(1);
+            var firstDayOfMonth = new DateTime(2020, 05, 21);
+            var lastDayOfMonth = new DateTime(2020, 06, 2);
 
             var queryResult = budgetService.Query(firstDayOfMonth, lastDayOfMonth);
 
-            Assert.AreEqual(queryResult, 5100);
+            Assert.AreEqual(3100, queryResult);
         }
 
+        [TestMethod]
+        public void MultipleMonth()
+        {
+            var repo = NSubstitute.Substitute.For<IBudgetRepo>();
+            repo.GetALL().Returns(new List<Budget>() {
+                new Budget() { YearMonth = "202004", Amount = 300 },
+                new Budget() { YearMonth = "202005", Amount = 3100 },
+                new Budget() { YearMonth = "202006", Amount = 30000 }
+            });
+            var budgetService = new BudgetService(repo);
+            DateTime date = DateTime.Now;
+            var firstDayOfMonth = new DateTime(2020, 04, 29);
+            var lastDayOfMonth = new DateTime(2020, 06, 1);
+
+            var queryResult = budgetService.Query(firstDayOfMonth, lastDayOfMonth);
+
+            Assert.AreEqual(4120,queryResult);
+        }
     }
 }
