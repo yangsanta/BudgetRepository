@@ -20,6 +20,6 @@ namespace BudgetApp
         /// <summary>
         /// 金額
         /// </summary>
-        public decimal Amount { get; set; }
+        public int Amount { get; set; }
     }
 }

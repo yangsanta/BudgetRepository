@@ -31,7 +31,7 @@ namespace BudgetApp
                 var month = int.Parse(budget.YearMonth.Substring(4, 2));
                 var day = 1;
                 var daysInMonth = DateTime.DaysInMonth(year, month);
-                var amountPerDay = budget.Amount / daysInMonth;
+                var amountPerDay = Convert.ToDecimal(budget.Amount) / daysInMonth;
                 while (day <= daysInMonth)
                 {
                     budgetsPerDay.Add(new BudgetEntity() { Date = new DateTime(year, month, day++), Amount = amountPerDay });
